@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flip_box_bar/flip_box_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:morse_chatter/GoogleSignin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:morse/morse.dart';
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'Login.dart';
 import 'Signal.dart';
 import 'package:flutter_mobile_vision/flutter_mobile_vision.dart';
@@ -36,41 +37,59 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromRGBO(245, 170, 168, 0.9),
-        bottomNavigationBar: BottomNavyBar(
-          backgroundColor: Colors.white70,
+        bottomNavigationBar: FlipBoxBar(
           selectedIndex: _selectedIndex,
-          showElevation: true,
-          curve: Curves.easeIn,
-          onItemSelected: (index) => setState(() {
+          onIndexChanged: (index) => setState(() {
             _selectedIndex = index;
           }),
           items: [
-            BottomNavyBarItem(
-              icon: Icon(
-                Icons.message,
+            FlipBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.comment,
+                color: Colors.teal,
               ),
-              title: Text(
-                'Chats',
+              text: Text(
+                "Chats",
+                style: TextStyle(
+                  color: Colors.teal,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              activeColor: Colors.red,
+              frontColor: Colors.red.shade500,
+              backColor: Colors.red.shade400,
             ),
-            BottomNavyBarItem(
-              icon: Icon(
-                Icons.image,
+            FlipBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.book,
+                color: Colors.blue,
               ),
-              title: Text(
-                'OCR',
+              text: Text(
+                "OCR",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              activeColor: Colors.deepPurpleAccent,
+              frontColor: Colors.purpleAccent,
+              backColor: Colors.purple,
             ),
-            BottomNavyBarItem(
-              icon: Icon(
-                Icons.school,
+            FlipBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.chalkboard,
+                color: Color.fromRGBO(122,81,57,0.8),
               ),
-              title: Text(
-                'Learn',
+              text: Text(
+                "Learn",
+                style: TextStyle(
+                  color: Color.fromRGBO(122,83,57,1),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              activeColor: Colors.pink,
+              frontColor: Colors.brown.shade300,
+              backColor: Colors.brown.shade200,
             ),
           ],
         ),
