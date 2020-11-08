@@ -51,7 +51,7 @@ class _SignalState extends State<Signal> {
       },
     )..startListening();
   }
-    void dispose() {
+  void dispose() {
     super.dispose();
     _shakePlugin.stopListening();
   }
@@ -60,19 +60,19 @@ class _SignalState extends State<Signal> {
     return Scaffold(
       backgroundColor: Color(0xff1B0536),
       appBar: AppBar(
-      centerTitle:true,
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
+        centerTitle:true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
               end: Alignment.centerRight,
-                colors: <Color>[
+              colors: <Color>[
                 Color(0xff6D0B60),
                 Color(0xffFF21B7),
-            ],
-            ),          
-         ),        
-        ), 
+              ],
+            ),
+          ),
+        ),
         title: Text(
           widget.toUser,
           style:GoogleFonts.montserrat(
@@ -80,19 +80,19 @@ class _SignalState extends State<Signal> {
               color: Colors.white,
               fontSize:25,
               fontWeight: FontWeight.w600,
-              ),
             ),
           ),
+        ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              Icons.cached,
-            ),
-          onPressed: (){
-            setState(() {
-              english == false ? english = true : english = false;
-            });
-          }
+              icon: Icon(
+                Icons.cached,
+              ),
+              onPressed: (){
+                setState(() {
+                  english == false ? english = true : english = false;
+                });
+              }
           ),
         ],
       ),
@@ -119,9 +119,9 @@ class _SignalState extends State<Signal> {
                     );
                   List<DocumentSnapshot> docs = snapshot.data.documents;
                   List<Widget> messages = docs.map((doc) => Message(
-                            message: english ? Morse(doc.data['text']).decode() : doc.data['text'],
-                            sendByMe: widget.user.email == doc.data['from'],
-                          )).toList();
+                    message: english ? Morse(doc.data['text']).decode() : doc.data['text'],
+                    sendByMe: widget.user.email == doc.data['from'],
+                  )).toList();
                   return ListView(
                     controller: scrollController,
                     children: <Widget>[
@@ -202,7 +202,7 @@ class _MessageState extends State<Message> {
       Vibration.vibrate(duration: time);
       sleep(
         Duration(
-        milliseconds: time + 100,
+          milliseconds: time + 100,
         ),
       );
     }
@@ -210,52 +210,52 @@ class _MessageState extends State<Message> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-          top: 8,
-          bottom: 8,
-          left: widget.sendByMe ? 0 : 24,
-          right: widget.sendByMe ? 24 : 0,
-        ),
+        top: 8,
+        bottom: 8,
+        left: widget.sendByMe ? 0 : 24,
+        right: widget.sendByMe ? 24 : 0,
+      ),
       alignment: widget.sendByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: InkWell(
         onTap: () => vibe(),
         child: Container(
           margin: widget.sendByMe ? EdgeInsets.only(left: 30) : EdgeInsets.only(right: 30),
           padding: EdgeInsets.only(
-              top: 17,
-              bottom: 17,
-              left: 20,
-              right: 20,
-            ),
+            top: 17,
+            bottom: 17,
+            left: 20,
+            right: 20,
+          ),
           decoration: BoxDecoration(
-              borderRadius: widget.sendByMe ? BorderRadius.only(
-                topLeft: Radius.circular(23),
-                topRight: Radius.circular(23),
-                bottomLeft: Radius.circular(23),
-              ) : BorderRadius.only(
-                topLeft: Radius.circular(23),
-                topRight: Radius.circular(23),
-                bottomRight: Radius.circular(23),
-              ),
-              gradient: LinearGradient(
-                colors: widget.sendByMe ? [
-                  const Color(0xffFF3798),
-                  const Color(0xffFF9E50),
-                ] : [
-                  Colors.deepPurple,
-                  Colors.teal
-                ],
-              ),
+            borderRadius: widget.sendByMe ? BorderRadius.only(
+              topLeft: Radius.circular(23),
+              topRight: Radius.circular(23),
+              bottomLeft: Radius.circular(23),
+            ) : BorderRadius.only(
+              topLeft: Radius.circular(23),
+              topRight: Radius.circular(23),
+              bottomRight: Radius.circular(23),
+            ),
+            gradient: LinearGradient(
+              colors: widget.sendByMe ? [
+                const Color(0xffFF3798),
+                const Color(0xffFF9E50),
+              ] : [
+                Colors.deepPurple,
+                Colors.teal
+              ],
+            ),
           ),
           child: Text(
             widget.message,
             textAlign: TextAlign.start,
             style:TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontFamily: 'OverpassRegular',
-            fontWeight: FontWeight.w700,
+              color: Colors.white,
+              fontSize: 18,
+              fontFamily: 'OverpassRegular',
+              fontWeight: FontWeight.w700,
             ),
-            ),
+          ),
         ),
       ),
     );
