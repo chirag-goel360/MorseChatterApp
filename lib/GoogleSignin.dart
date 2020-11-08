@@ -36,7 +36,7 @@ Future<String> signInWithGoogle(BuildContext context) async {
   FirebaseAdd().addUser(name, email, phoneNumber, user.uid, imageUrl);
   Navigator.pop(context);
   Navigator.push(context, MaterialPageRoute(builder:(context) => HomePage()));
-  return 'signInWithGoogle succeeded: $user';
+  return 'signInWithGoogle successful: $user';
 }
 
 void signOutGoogle() async{

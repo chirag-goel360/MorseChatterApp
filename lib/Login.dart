@@ -13,37 +13,49 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1B0536),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children:<Widget>[
-          Text(
-            'MORSEY',
-            style: GoogleFonts.orbitron(
-              textStyle:TextStyle(
-                color:Colors.tealAccent,
-                fontSize:40,
-                fontWeight: FontWeight.bold,
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/background.jpg"),
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          Text(
-            'Chat Morse',
-            style: TextStyle(
-              color: Colors.tealAccent,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Lottie.asset('assets/loginAnim.json'),
-          SizedBox(
-            height: 10,
-          ),
-          SignInButton(
-            Buttons.GoogleDark,
-            onPressed: () => signInWithGoogle(context),
-            text: 'Continue With Google',
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:<Widget>[
+              Text(
+                'Morse Chat',
+                style: GoogleFonts.orbitron(
+                  textStyle:TextStyle(
+                    color:Colors.orangeAccent,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                'Chat Using Morse',
+                style: TextStyle(
+                  color: Colors.redAccent,
+                  fontSize: 18,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Lottie.asset('assets/loginanimation.json'),
+              SizedBox(
+                height: 10,
+              ),
+              SignInButton(
+                Buttons.GoogleDark,
+                onPressed: () => signInWithGoogle(context),
+                text: 'SignUp With Google',
+              ),
+            ],
           ),
         ],
       ),

@@ -35,9 +35,9 @@ class _HomePageState extends State<HomePage> {
   }
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xff1B0536),
+        backgroundColor: Color.fromRGBO(245, 170, 168, 0.9),
         bottomNavigationBar: BottomNavyBar(
-          backgroundColor: Color(0xff260F41),
+          backgroundColor: Colors.white70,
           selectedIndex: _selectedIndex,
           showElevation: true,
           curve: Curves.easeIn,
@@ -50,9 +50,9 @@ class _HomePageState extends State<HomePage> {
                 Icons.message,
               ),
               title: Text(
-                'Signals',
+                'Chats',
               ),
-              activeColor: Color(0xFFFF16CD),
+              activeColor: Colors.red,
             ),
             BottomNavyBarItem(
               icon: Icon(
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
               title: Text(
                 'OCR',
               ),
-              activeColor: Colors.purpleAccent,
+              activeColor: Colors.deepPurpleAccent,
             ),
             BottomNavyBarItem(
               icon: Icon(
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
               title: Text(
                 'Learn',
               ),
-              activeColor: Colors.red,
+              activeColor: Colors.pink,
             ),
           ],
         ),
@@ -82,25 +82,26 @@ class _HomePageState extends State<HomePage> {
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: <Color>[
-                  Color(0xff6D0B60),
+                  Colors.blue,
                   Color(0xffFF21B7),
+                  Colors.deepPurpleAccent,
                 ],
               ),
             ),
           ),
           title: Text(
-            'Morsey',
+            'Morse Chatter',
             style:GoogleFonts.montserrat(
               textStyle:TextStyle(
                 color: Colors.white,
                 fontSize: 27,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
           actions: <Widget>[
             PopupMenuButton(
-              color: Colors.tealAccent[400],
+              color: Colors.blue,
               itemBuilder: (BuildContext context){
                 return[
                   PopupMenuItem(
@@ -123,7 +124,6 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ),
-                        color: Colors.yellowAccent,
                         splashColor: Colors.tealAccent,
                       ),
                     ),
@@ -138,9 +138,9 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(context, MaterialPageRoute(builder: (context) => NewSignal(user)));
           },
           child: Icon(
-            Icons.add,
+            Icons.person,
           ),
-          backgroundColor: Colors.orange[400],
+          backgroundColor: Colors.orange,
         ) : null,
         body: _selectedIndex == 0 ? user != null ? StreamBuilder(
           stream: Firestore.instance.collection('signals').where('users',arrayContains:user.email).snapshots(),
@@ -157,15 +157,15 @@ class _HomePageState extends State<HomePage> {
               return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:<Widget>[
-                    Lottie.asset('assets/sendSignal1.json'),
+                    Lottie.asset('assets/laboratory.json'),
                     SizedBox(
                       height: 20,
                     ),
                     Text(
-                      'No previous Signal found',
+                      'No previous Chats found',
                       style: GoogleFonts.varelaRound(
                         textStyle:TextStyle(
-                          color: Colors.tealAccent,
+                          color: Colors.teal,
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                         ),
@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     RaisedButton(
                       child: Text(
-                        'Send A Singal',
+                        'Chat with Others',
                         style: GoogleFonts.orbitron(
                           textStyle: TextStyle(
                             color: Colors.black,
@@ -209,12 +209,12 @@ class _HomePageState extends State<HomePage> {
                         },
                         title:Text(
                           '${snapshot.data.documents[index].data['chatId'].replaceAll("-","").replaceAll(user.email,"")}',
-                          style:GoogleFonts.orbitron(
+                          style:GoogleFonts.varelaRound(
                             textStyle: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
-                              letterSpacing: 2,
+                              letterSpacing: 0.4,
                             ),
                           ),
                         ),
@@ -240,7 +240,7 @@ class _HomePageState extends State<HomePage> {
                                   snapshot.data.documents[index].data['chatId'].replaceAll("-","").replaceAll(user.email,"").substring(0, 1),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.blue,
                                     fontSize: 24,
                                     fontFamily: 'OverpassRegular',
                                     fontWeight: FontWeight.w600,
@@ -264,7 +264,7 @@ class _HomePageState extends State<HomePage> {
                         enabled: true,
                         trailing: Icon(
                           Icons.navigate_next,
-                          color: Colors.greenAccent,
+                          color: Colors.green,
                           size: 40,
                         ),
                       ),
@@ -275,8 +275,8 @@ class _HomePageState extends State<HomePage> {
                           right: 10,
                         ),
                         child: Divider(
-                          color: Colors.deepOrange,
-                          thickness: 0.3,
+                          color: Colors.black,
+                          thickness: 0.4,
                         ),
                       ),
                     ],
@@ -306,13 +306,12 @@ class _NewSignalState extends State<NewSignal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1B0536),
       appBar: AppBar(
         centerTitle:true,
-        backgroundColor: Colors.purple[900],
+        backgroundColor: Colors.purple[700],
         title: Text(
-          'New Signal',
-          style:GoogleFonts.orbitron(
+          'Add Chat',
+          style:GoogleFonts.varelaRound(
             textStyle:TextStyle(
               color: Colors.tealAccent,
               fontSize: 23,
@@ -321,98 +320,110 @@ class _NewSignalState extends State<NewSignal> {
           ),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Expanded(
-            child: Lottie.asset('assets/sendSignal.json'),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              style: TextStyle(
-                color:Colors.purpleAccent,
-                fontSize:18,
-              ),
-              controller: mailController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5.0),
-                  ),
-                  borderSide: BorderSide(
-                    color: Colors.purpleAccent,
-                  ),
-                ),
-                hintText: 'Enter reciever\'s Email',
-                hintStyle: TextStyle(
-                  color:Colors.purpleAccent,
-                  fontSize: 18,
-                ),
-                labelText: 'Enter reciever\'s Email',
-              ),
-              onChanged: (value){
-                email = value;
-              },
-              onSubmitted: (value){
-                email = value;
-              },
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          RaisedButton(
-            color: Colors.yellowAccent,
-            splashColor: Colors.tealAccent,
-            onPressed: () async{
-              final z = await Firestore.instance.collection('users').document(mailController.text).get();
-              if(z.exists){
-                String chatId = '${widget.user.email}-${mailController.text}';
-                final x = await Firestore.instance.collection('signals').document(chatId).get();
-                final y = await Firestore.instance.collection('signals').document(chatId).get();
-                if(x.exists || y.exists)
-                {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                    return Signal(widget.user,chatId,chatId.replaceAll('-', '').replaceAll(widget.user.email,'').replaceAll('@gmail.com',''));
-                  }));
-                }
-                else{
-                  await Firestore.instance.collection('signals').document(chatId).setData({'users':[widget.user.email,mailController.text],'chatId':chatId});
-                  await Firestore.instance.collection('users').document(widget.user.email).collection('ActiveSignals').document(chatId).setData({'signalId':chatId});
-                  await Firestore.instance.collection('users').document(mailController.text).collection('ActiveSignals').document(chatId).setData({'signalId':chatId});
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-                    return Signal(widget.user,chatId,chatId.replaceAll('-', '').replaceAll(widget.user.email,'').replaceAll('@gmail.com',''));
-                  }));
-                }
-              }
-              else
-                Fluttertoast.showToast(
-                  msg: "Email not registered",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.CENTER,
-                  timeInSecForIosWeb: 1,
-                  backgroundColor: Colors.red,
-                  textColor: Colors.white,
-                  fontSize: 16.0,
-                );
-            },
-            child: Text(
-              'Send Signal',
-              style:GoogleFonts.orbitron(
-                textStyle:TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/bg.jpg"),
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          SizedBox(
-            height:40,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: Lottie.asset('assets/searching.json'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextField(
+                  style: TextStyle(
+                    color:Colors.purpleAccent,
+                    fontSize:18,
+                  ),
+                  controller: mailController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5.0),
+                      ),
+                      borderSide: BorderSide(
+                        color: Colors.purpleAccent,
+                      ),
+                    ),
+                    hintText: 'Enter reciever\'s Email',
+                    hintStyle: TextStyle(
+                      color:Colors.white,
+                      fontSize: 18,
+                    ),
+                    labelText: 'Enter reciever\'s Email',
+                  ),
+                  onChanged: (value){
+                    email = value;
+                  },
+                  onSubmitted: (value){
+                    email = value;
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              RaisedButton(
+                color: Colors.orangeAccent,
+                splashColor: Colors.tealAccent,
+                onPressed: () async{
+                  final z = await Firestore.instance.collection('users').document(mailController.text).get();
+                  if(z.exists){
+                    String chatId = '${widget.user.email}-${mailController.text}';
+                    final x = await Firestore.instance.collection('signals').document(chatId).get();
+                    final y = await Firestore.instance.collection('signals').document(chatId).get();
+                    if(x.exists || y.exists)
+                    {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                        return Signal(widget.user,chatId,chatId.replaceAll('-', '').replaceAll(widget.user.email,'').replaceAll('@gmail.com',''));
+                      }));
+                    }
+                    else{
+                      await Firestore.instance.collection('signals').document(chatId).setData({'users':[widget.user.email,mailController.text],'chatId':chatId});
+                      await Firestore.instance.collection('users').document(widget.user.email).collection('ActiveSignals').document(chatId).setData({'signalId':chatId});
+                      await Firestore.instance.collection('users').document(mailController.text).collection('ActiveSignals').document(chatId).setData({'signalId':chatId});
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                        return Signal(widget.user,chatId,chatId.replaceAll('-', '').replaceAll(widget.user.email,'').replaceAll('@gmail.com',''));
+                      }));
+                    }
+                  }
+                  else
+                    Fluttertoast.showToast(
+                      msg: "Email not registered",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0,
+                    );
+                },
+                child: Text(
+                  'Send Signal',
+                  style:GoogleFonts.orbitron(
+                    textStyle:TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height:40,
+              ),
+            ],
           ),
         ],
       ) ,
@@ -427,7 +438,7 @@ class OCR extends StatefulWidget {
 
 class _OCRState extends State<OCR> {
   int _cameraOcr = FlutterMobileVision.CAMERA_BACK;
-  String _textValue = "sample";
+  String _textValue = "Sample Code";
   Future<Null> _read() async {
     List<OcrText> texts = [];
     try {
@@ -493,7 +504,7 @@ class _OCRState extends State<OCR> {
                   child: Text(
                     'Start Scanning',
                   ),
-                  color: Color(0xFFFF16CD),
+                  color: Colors.red,
                   splashColor: Colors.orangeAccent,
                 ),
                 SizedBox(

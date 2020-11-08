@@ -58,7 +58,7 @@ class _SignalState extends State<Signal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff1B0536),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle:true,
         flexibleSpace: Container(
@@ -67,8 +67,9 @@ class _SignalState extends State<Signal> {
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: <Color>[
-                Color(0xff6D0B60),
+                Colors.blue,
                 Color(0xffFF21B7),
+                Colors.deepPurpleAccent,
               ],
             ),
           ),
@@ -86,7 +87,7 @@ class _SignalState extends State<Signal> {
         actions: <Widget>[
           IconButton(
               icon: Icon(
-                Icons.cached,
+                Icons.edit,
               ),
               onPressed: (){
                 setState(() {
@@ -105,7 +106,7 @@ class _SignalState extends State<Signal> {
               child: Text(
                 !english ? "Shake to turn morse code into English" : "Shake to turn English into Morse code",
                 style: TextStyle(
-                  color:Colors.white,
+                  color:Colors.blue,
                 ),
               ),
             ),
@@ -143,10 +144,11 @@ class _SignalState extends State<Signal> {
                       child: TextField(
                         onSubmitted: (value) => callback(),
                         decoration: InputDecoration(
-                          hoverColor: Colors.deepPurpleAccent,
+                          hoverColor: Colors.purpleAccent,
                           hintText: "Enter a signal message",
                           hintStyle: TextStyle(
                             color:Color(0xffE6BBFC),
+                            fontSize: 18,
                           ),
                           border: const OutlineInputBorder(),
                         ),
@@ -179,7 +181,7 @@ class SendButton extends StatelessWidget {
         Icons.send,
         size: 33,
       ),
-      color: Color(0xffFF16CD),
+      color: Colors.red,
       onPressed: callback,
     );
   }
@@ -238,8 +240,8 @@ class _MessageState extends State<Message> {
             ),
             gradient: LinearGradient(
               colors: widget.sendByMe ? [
-                const Color(0xffFF3798),
-                const Color(0xffFF9E50),
+                Colors.red,
+                Colors.green,
               ] : [
                 Colors.deepPurple,
                 Colors.teal
@@ -250,7 +252,7 @@ class _MessageState extends State<Message> {
             widget.message,
             textAlign: TextAlign.start,
             style:TextStyle(
-              color: Colors.white,
+              color: Colors.yellow.shade600,
               fontSize: 18,
               fontFamily: 'OverpassRegular',
               fontWeight: FontWeight.w700,

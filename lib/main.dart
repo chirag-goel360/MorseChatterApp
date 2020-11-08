@@ -15,10 +15,10 @@ class MyApp1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Morsey',
+      title: 'Morse Chat',
       theme: ThemeData(
         primarySwatch: Colors.teal,
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Login(),
@@ -35,10 +35,10 @@ class MyApp2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Morsey',
+      title: 'Morse Chat',
       theme: ThemeData(
         primarySwatch: Colors.teal,
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomePage(),

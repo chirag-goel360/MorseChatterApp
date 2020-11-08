@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   shared_preferences: ^0.5.7+3
   cloud_firestore: ^0.13.7
+  flare_flutter:
   google_fonts: ^1.1.0
   firebase_auth: ^0.16.1
   google_sign_in: ^4.5.1
