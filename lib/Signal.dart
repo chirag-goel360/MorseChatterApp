@@ -68,7 +68,7 @@ class _SignalState extends State<Signal> {
               end: Alignment.centerRight,
               colors: <Color>[
                 Colors.blue,
-                Color(0xffFF21B7),
+                // Color(0xffFF21B7),
                 Colors.deepPurpleAccent,
               ],
             ),
@@ -98,7 +98,17 @@ class _SignalState extends State<Signal> {
         ],
       ),
       body: SafeArea(
-        child: Column(
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/bg.jpg"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Padding(
@@ -106,7 +116,7 @@ class _SignalState extends State<Signal> {
               child: Text(
                 !english ? "Shake to turn morse code into English" : "Shake to turn English into Morse code",
                 style: TextStyle(
-                  color:Colors.blue,
+                  color:Colors.deepOrange,
                 ),
               ),
             ),
@@ -165,6 +175,8 @@ class _SignalState extends State<Signal> {
             ),
           ],
         ),
+          ],
+        )
       ),
     );
   }
