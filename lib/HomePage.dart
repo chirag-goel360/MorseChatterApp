@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:morse_chatter/GoogleSignin.dart';
 import 'package:morse_chatter/LearnMorse.dart';
+import 'package:morse_chatter/MorseLight.dart';
 import 'package:morse_chatter/NewSignal.dart';
 import 'package:morse_chatter/OCR.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -56,10 +57,16 @@ class _HomePageState extends State<HomePage> {
                 title: Text('OCR'),
                 activeColor: Colors.purpleAccent),
             BottomNavyBarItem(
+              icon: Icon(Icons.flash_auto),
+              title: Text('Flash'),
+              activeColor: Colors.greenAccent[400],
+            ),
+            BottomNavyBarItem(
               icon: Icon(Icons.school),
               title: Text('Learn'),
               activeColor: Colors.red,
             ),
+            
           ],
         ),
         // FlipBoxBar(
@@ -384,7 +391,7 @@ class _HomePageState extends State<HomePage> {
                       )
                 : _selectedIndex == 1
                     ? OCR()
-                    : Learn()
+                    :_selectedIndex==2? LightMorse(): Learn()
           ],
         ));
   }
