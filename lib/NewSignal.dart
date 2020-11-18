@@ -9,6 +9,7 @@ import 'Signal.dart';
 class NewSignal extends StatefulWidget {
   FirebaseUser user;
   NewSignal(this.user);
+
   @override
   _NewSignalState createState() => _NewSignalState();
 }
@@ -17,6 +18,7 @@ class _NewSignalState extends State<NewSignal> {
   String email;
   String error;
   TextEditingController mailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +41,9 @@ class _NewSignalState extends State<NewSignal> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/bg.jpg"),
+                image: AssetImage(
+                  "assets/bg.jpg",
+                ),
                 fit: BoxFit.cover,
               ),
             ),
@@ -48,10 +52,12 @@ class _NewSignalState extends State<NewSignal> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: Lottie.asset('assets/searching.json'),
+                child: Lottie.asset(
+                  'assets/searching.json',
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: TextField(
                   style: TextStyle(
                     color: Colors.purpleAccent,
@@ -97,8 +103,7 @@ class _NewSignalState extends State<NewSignal> {
                       .document(mailController.text)
                       .get();
                   if (z.exists) {
-                    String chatId =
-                        '${widget.user.email}-${mailController.text}';
+                    String chatId = '${widget.user.email}-${mailController.text}';
                     final x = await Firestore.instance
                         .collection('signals')
                         .document(chatId)
@@ -108,46 +113,55 @@ class _NewSignalState extends State<NewSignal> {
                         .document(chatId)
                         .get();
                     if (x.exists || y.exists) {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
                         return Signal(
-                            widget.user,
-                            chatId,
-                            chatId
-                                .replaceAll('-', '')
-                                .replaceAll(widget.user.email, '')
-                                .replaceAll('@gmail.com', ''));
-                      }));
+                          widget.user,
+                          chatId,
+                          chatId
+                              .replaceAll('-', '')
+                              .replaceAll(widget.user.email, '')
+                              .replaceAll('@gmail.com', ''),
+                        );
+                      },
+                      ),
+                      );
                     } else {
                       await Firestore.instance
                           .collection('signals')
                           .document(chatId)
                           .setData({
                         'users': [widget.user.email, mailController.text],
-                        'chatId': chatId
+                        'chatId': chatId,
                       });
                       await Firestore.instance
                           .collection('users')
                           .document(widget.user.email)
                           .collection('ActiveSignals')
                           .document(chatId)
-                          .setData({'signalId': chatId});
+                          .setData({
+                        'signalId': chatId,
+                      });
                       await Firestore.instance
                           .collection('users')
                           .document(mailController.text)
                           .collection('ActiveSignals')
                           .document(chatId)
-                          .setData({'signalId': chatId});
+                          .setData({
+                        'signalId': chatId,
+                      });
                       Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) {
-                        return Signal(
+                        MaterialPageRoute(builder: (context) {
+                          return Signal(
                             widget.user,
                             chatId,
                             chatId
                                 .replaceAll('-', '')
                                 .replaceAll(widget.user.email, '')
-                                .replaceAll('@gmail.com', ''));
-                      }));
+                                .replaceAll('@gmail.com', ''),
+                          );
+                        },
+                        ),
+                      );
                     }
                   } else
                     Fluttertoast.showToast(

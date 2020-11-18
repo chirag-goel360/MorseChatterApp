@@ -4,7 +4,6 @@ import 'package:lottie/lottie.dart';
 import 'package:morse/morse.dart';
 import 'package:flutter_mobile_vision/flutter_mobile_vision.dart';
 
-
 class OCR extends StatefulWidget {
   @override
   _OCRState createState() => _OCRState();
@@ -13,6 +12,7 @@ class OCR extends StatefulWidget {
 class _OCRState extends State<OCR> {
   int _cameraOcr = FlutterMobileVision.CAMERA_BACK;
   String _textValue = "Sample Code";
+
   Future<Null> _read() async {
     List<OcrText> texts = [];
     try {
@@ -36,9 +36,9 @@ class _OCRState extends State<OCR> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Center(
-          child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
             Lottie.asset(
               'assets/scan-some-words.json',
               repeat: false,
@@ -91,7 +91,9 @@ class _OCRState extends State<OCR> {
                 color: Color(0xffE6BBFC),
               ),
             ),
-          ])),
+          ],
+        ),
+      ),
     );
   }
 }

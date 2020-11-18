@@ -18,7 +18,9 @@ class _LoginState extends State<Login> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/background.jpg"),
+                image: AssetImage(
+                  "assets/background.jpg",
+                ),
                 fit: BoxFit.cover,
               ),
             ),
@@ -46,7 +48,9 @@ class _LoginState extends State<Login> {
               SizedBox(
                 height: 10,
               ),
-              Lottie.asset('assets/loginanimation.json'),
+              Lottie.asset(
+                'assets/loginanimation.json',
+              ),
               SizedBox(
                 height: 10,
               ),

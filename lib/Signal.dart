@@ -12,6 +12,7 @@ class Signal extends StatefulWidget {
   final FirebaseUser user;
   final String toUser;
   Signal(this.user,this.chatId,this.toUser);
+
   @override
   _SignalState createState() => _SignalState();
 }
@@ -22,6 +23,7 @@ class _SignalState extends State<Signal> {
   FlutterShakePlugin _shakePlugin;
   TextEditingController messageController = TextEditingController();
   ScrollController scrollController = ScrollController();
+
   Future<void> callback() async {
     if(messageController.text.length > 0) {
       String morseMessage = Morse(messageController.text).encode();
@@ -34,12 +36,13 @@ class _SignalState extends State<Signal> {
       scrollController.animateTo(
         scrollController.position.maxScrollExtent,
         curve: Curves.easeOut,
-        duration: const Duration(
+        duration: Duration(
           milliseconds: 300,
         ),
       );
     }
   }
+
   void initState(){
     super.initState();
     _shakePlugin = FlutterShakePlugin(
@@ -51,16 +54,18 @@ class _SignalState extends State<Signal> {
       },
     )..startListening();
   }
+
   void dispose() {
     super.dispose();
     _shakePlugin.stopListening();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        centerTitle:true,
+        centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -68,7 +73,6 @@ class _SignalState extends State<Signal> {
               end: Alignment.centerRight,
               colors: <Color>[
                 Colors.blue,
-                // Color(0xffFF21B7),
                 Colors.deepPurpleAccent,
               ],
             ),
@@ -76,7 +80,7 @@ class _SignalState extends State<Signal> {
         ),
         title: Text(
           widget.toUser,
-          style:GoogleFonts.montserrat(
+          style: GoogleFonts.montserrat(
             textStyle:TextStyle(
               color: Colors.white,
               fontSize:25,
@@ -103,80 +107,82 @@ class _SignalState extends State<Signal> {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/bg.jpg"),
+                  image: AssetImage(
+                    "assets/background.jpg",
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
             Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                !english ? "Shake to turn morse code into English" : "Shake to turn English into Morse code",
-                style: TextStyle(
-                  color:Colors.deepOrange,
-                ),
-              ),
-            ),
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: _firestore.collection('signals').document(widget.chatId).collection('Chats').orderBy('date').snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData)
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  List<DocumentSnapshot> docs = snapshot.data.documents;
-                  List<Widget> messages = docs.map((doc) => Message(
-                    message: english ? Morse(doc.data['text']).decode() : doc.data['text'],
-                    sendByMe: widget.user.email == doc.data['from'],
-                  )).toList();
-                  return ListView(
-                    controller: scrollController,
-                    children: <Widget>[
-                      ...messages,
-                    ],
-                  );
-                },
-              ),
-            ),
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 10,
-                        left: 8,
-                      ),
-                      child: TextField(
-                        onSubmitted: (value) => callback(),
-                        decoration: InputDecoration(
-                          hoverColor: Colors.purpleAccent,
-                          hintText: "Enter a signal message",
-                          hintStyle: TextStyle(
-                            color:Color(0xffE6BBFC),
-                            fontSize: 18,
-                          ),
-                          border: const OutlineInputBorder(),
-                        ),
-                        controller: messageController,
-                      ),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    !english ? "Shake to turn morse code into English" : "Shake to turn English into Morse code",
+                    style: TextStyle(
+                      color:Colors.deepOrange,
                     ),
                   ),
-                  SendButton(
-                    text: "Send",
-                    callback: callback,
+                ),
+                Expanded(
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: _firestore.collection('signals').document(widget.chatId).collection('Chats').orderBy('date').snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData)
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      List<DocumentSnapshot> docs = snapshot.data.documents;
+                      List<Widget> messages = docs.map((doc) => Message(
+                        message: english ? Morse(doc.data['text']).decode() : doc.data['text'],
+                        sendByMe: widget.user.email == doc.data['from'],
+                      )).toList();
+                      return ListView(
+                        controller: scrollController,
+                        children: <Widget>[
+                          ...messages,
+                        ],
+                      );
+                    },
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            bottom: 10,
+                            left: 8,
+                          ),
+                          child: TextField(
+                            onSubmitted: (value) => callback(),
+                            decoration: InputDecoration(
+                              hoverColor: Colors.purpleAccent,
+                              hintText: "Enter a signal message",
+                              hintStyle: TextStyle(
+                                color:Colors.blue,
+                                fontSize: 18,
+                              ),
+                              border: OutlineInputBorder(),
+                            ),
+                            controller: messageController,
+                          ),
+                        ),
+                      ),
+                      SendButton(
+                        text: "Send",
+                        callback: callback,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
-          ],
-        )
       ),
     );
   }
@@ -185,7 +191,8 @@ class _SignalState extends State<Signal> {
 class SendButton extends StatelessWidget {
   final String text;
   final VoidCallback callback;
-  const SendButton({Key key, this.text, this.callback}) : super(key: key);
+  SendButton({Key key, this.text, this.callback}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -203,6 +210,7 @@ class Message extends StatefulWidget {
   final String message;
   final bool sendByMe;
   Message({@required this.message, @required this.sendByMe});
+
   @override
   _MessageState createState() => _MessageState();
 }
@@ -213,7 +221,9 @@ class _MessageState extends State<Message> {
     for (int i = 0; i < widget.message.length; i++) {
       print(widget.message.length);
       int time = timimg[widget.message[i]];
-      Vibration.vibrate(duration: time);
+      Vibration.vibrate(
+        duration: time,
+      );
       sleep(
         Duration(
           milliseconds: time + 100,
@@ -221,6 +231,7 @@ class _MessageState extends State<Message> {
       );
     }
   }
+
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
@@ -233,7 +244,11 @@ class _MessageState extends State<Message> {
       child: InkWell(
         onTap: () => vibe(),
         child: Container(
-          margin: widget.sendByMe ? EdgeInsets.only(left: 30) : EdgeInsets.only(right: 30),
+          margin: widget.sendByMe ? EdgeInsets.only(
+            left: 30,
+          ) : EdgeInsets.only(
+            right: 30,
+          ),
           padding: EdgeInsets.only(
             top: 17,
             bottom: 17,

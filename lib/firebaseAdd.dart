@@ -7,7 +7,7 @@ class FirebaseAdd{
           'name': name,
           'email': email,
           'uid':uid,
-          'profilePic':imageUrl
+          'profilePic':imageUrl,
         }
     );
   }
