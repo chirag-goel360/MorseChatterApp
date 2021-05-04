@@ -28,8 +28,7 @@ class _HomePageState extends State<HomePage> {
   getUser() async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     user = await _auth.currentUser();
-    setState(() {
-    });
+    setState(() {});
     print(user.email);
   }
 
@@ -45,9 +44,11 @@ class _HomePageState extends State<HomePage> {
         selectedIndex: _selectedIndex,
         showElevation: true,
         curve: Curves.easeIn,
-        onItemSelected: (index) => setState(() {
-          _selectedIndex = index;
-        }),
+        onItemSelected: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         items: [
           BottomNavyBarItem(
             icon: Icon(
@@ -120,13 +121,17 @@ class _HomePageState extends State<HomePage> {
                   child: Center(
                     child: FlatButton(
                       onPressed: () async {
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
                         prefs.clear();
                         signOutGoogle();
                         Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => Login()),
-                            ModalRoute.withName('homepage'));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
+                          ),
+                          ModalRoute.withName('homepage'),
+                        );
                       },
                       child: Text(
                         'Logout',
@@ -147,20 +152,26 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      floatingActionButton: fab ? FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => NewSignal(
-            user,
-          ),
-          ),
-          );
-        },
-        child: Icon(
-          Icons.person,
-        ),
-        backgroundColor: Colors.orange,
-      ):
-      null,
+      floatingActionButton: fab
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return NewSignal(
+                        user,
+                      );
+                    },
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.person,
+              ),
+              backgroundColor: Colors.orange,
+            )
+          : null,
       body: Stack(
         children: [
           Container(
@@ -173,181 +184,193 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          _selectedIndex == 0 ? user != null ? StreamBuilder(
-            stream: Firestore.instance
-                .collection('signals')
-                .where('users', arrayContains: user.email)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              else if (snapshot.data.documents.length == 0) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Lottie.asset(
-                      'assets/laboratory.json',
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'No previous Chats found',
-                      style: GoogleFonts.varelaRound(
-                        textStyle: TextStyle(
-                          color: Colors.teal,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    RaisedButton(
-                      child: Text(
-                        'Chat with Others',
-                        style: GoogleFonts.orbitron(
-                          textStyle: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                      color: Colors.yellowAccent,
-                      splashColor: Colors.tealAccent,
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) =>NewSignal(
-                          user,
-                        ),
-                        ),
-                        );
-                      },
-                    ),
-                  ],
-                );
-              }
-              return ListView.builder(
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      top: 10,
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => Signal(
-                              user,
-                              snapshot.data.documents[index].data['chatId'],
-                              snapshot.data.documents[index].data['chatId']
-                                  .replaceAll("-", "")
-                                  .replaceAll(
-                                  user.email,""
-                              ).replaceAll(
-                                  '@gmail.com',''
+          _selectedIndex == 0
+              ? user != null
+                  ? StreamBuilder(
+                      stream: Firestore.instance
+                          .collection('signals')
+                          .where('users', arrayContains: user.email)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.data.documents.length == 0) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Lottie.asset(
+                                'assets/laboratory.json',
                               ),
-                            ),
-                            ),
-                            );
-                          },
-                          title: Text(
-                            '${snapshot.data.documents[index].data['chatId'].replaceAll("-", "").replaceAll(user.email, "")}',
-                            style: GoogleFonts.varelaRound(
-                              textStyle: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                                letterSpacing: 0.4,
+                              SizedBox(
+                                height: 20,
                               ),
-                            ),
-                          ),
-                          leading: Container(
-                            height: 60,
-                            width: 60,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.blue[600],
-                                  Colors.deepPurpleAccent[700],
-                                ],
-                              ),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                SizedBox(
-                                  height: 4,
+                              Text(
+                                'No previous Chats found',
+                                style: GoogleFonts.varelaRound(
+                                  textStyle: TextStyle(
+                                    color: Colors.teal,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
-                                Expanded(
-                                  child: Text(
-                                    snapshot.data.documents[index]
-                                        .data['chatId']
-                                        .replaceAll("-", "")
-                                        .replaceAll(user.email, "")
-                                        .substring(0, 1),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 24,
-                                      fontFamily: 'OverpassRegular',
-                                      fontWeight: FontWeight.w600,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              RaisedButton(
+                                child: Text(
+                                  'Chat with Others',
+                                  style: GoogleFonts.orbitron(
+                                    textStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
                                     ),
                                   ),
                                 ),
-                                Text(
-                                  '${Morse(snapshot.data.documents[index].data['chatId'].replaceAll("-", "").replaceAll(user.email, "").substring(0, 1)).encode()}',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w700,
+                                color: Colors.yellowAccent,
+                                splashColor: Colors.tealAccent,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return NewSignal(
+                                          user,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        }
+                        return ListView.builder(
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                top: 10,
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  ListTile(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return Signal(
+                                              user,
+                                              snapshot.data.documents[index]
+                                                  .data['chatId'],
+                                              snapshot.data.documents[index]
+                                                  .data['chatId']
+                                                  .replaceAll("-", "")
+                                                  .replaceAll(user.email, "")
+                                                  .replaceAll('@gmail.com', ''),
+                                            );
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    title: Text(
+                                      '${snapshot.data.documents[index].data['chatId'].replaceAll("-", "").replaceAll(user.email, "")}',
+                                      style: GoogleFonts.varelaRound(
+                                        textStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          letterSpacing: 0.4,
+                                        ),
+                                      ),
+                                    ),
+                                    leading: Container(
+                                      height: 60,
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.blue[600],
+                                            Colors.deepPurpleAccent[700],
+                                          ],
+                                        ),
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: <Widget>[
+                                          SizedBox(
+                                            height: 4,
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              snapshot.data.documents[index]
+                                                  .data['chatId']
+                                                  .replaceAll("-", "")
+                                                  .replaceAll(user.email, "")
+                                                  .substring(0, 1),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: Colors.blue,
+                                                fontSize: 24,
+                                                fontFamily: 'OverpassRegular',
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            '${Morse(snapshot.data.documents[index].data['chatId'].replaceAll("-", "").replaceAll(user.email, "").substring(0, 1)).encode()}',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 4,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    enabled: true,
+                                    trailing: Icon(
+                                      Icons.navigate_next,
+                                      color: Colors.green,
+                                      size: 40,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 4,
-                                )
-                              ],
-                            ),
-                          ),
-                          enabled: true,
-                          trailing: Icon(
-                            Icons.navigate_next,
-                            color: Colors.green,
-                            size: 40,
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 4,
-                            left: 10,
-                            right: 10,
-                          ),
-                          child: Divider(
-                            color: Colors.black,
-                            thickness: 0.4,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
-          ):
-          Center(
-            child: CircularProgressIndicator(),
-          ):
-          _selectedIndex == 1?
-          OCR():
-          _selectedIndex==2?
-          LightMorse():
-          Learn()
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: 4,
+                                      left: 10,
+                                      right: 10,
+                                    ),
+                                    child: Divider(
+                                      color: Colors.black,
+                                      thickness: 0.4,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    )
+              : _selectedIndex == 1
+                  ? OCR()
+                  : _selectedIndex == 2
+                      ? LightMorse()
+                      : Learn(),
         ],
       ),
     );

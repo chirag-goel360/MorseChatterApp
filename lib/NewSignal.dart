@@ -8,7 +8,9 @@ import 'Signal.dart';
 
 class NewSignal extends StatefulWidget {
   FirebaseUser user;
-  NewSignal(this.user);
+  NewSignal(
+    this.user,
+  );
 
   @override
   _NewSignalState createState() => _NewSignalState();
@@ -103,7 +105,8 @@ class _NewSignalState extends State<NewSignal> {
                       .document(mailController.text)
                       .get();
                   if (z.exists) {
-                    String chatId = '${widget.user.email}-${mailController.text}';
+                    String chatId =
+                        '${widget.user.email}-${mailController.text}';
                     final x = await Firestore.instance
                         .collection('signals')
                         .document(chatId)
@@ -113,17 +116,20 @@ class _NewSignalState extends State<NewSignal> {
                         .document(chatId)
                         .get();
                     if (x.exists || y.exists) {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                        return Signal(
-                          widget.user,
-                          chatId,
-                          chatId
-                              .replaceAll('-', '')
-                              .replaceAll(widget.user.email, '')
-                              .replaceAll('@gmail.com', ''),
-                        );
-                      },
-                      ),
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return Signal(
+                              widget.user,
+                              chatId,
+                              chatId
+                                  .replaceAll('-', '')
+                                  .replaceAll(widget.user.email, '')
+                                  .replaceAll('@gmail.com', ''),
+                            );
+                          },
+                        ),
                       );
                     } else {
                       await Firestore.instance
@@ -149,17 +155,19 @@ class _NewSignalState extends State<NewSignal> {
                           .setData({
                         'signalId': chatId,
                       });
-                      Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) {
-                          return Signal(
-                            widget.user,
-                            chatId,
-                            chatId
-                                .replaceAll('-', '')
-                                .replaceAll(widget.user.email, '')
-                                .replaceAll('@gmail.com', ''),
-                          );
-                        },
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return Signal(
+                              widget.user,
+                              chatId,
+                              chatId
+                                  .replaceAll('-', '')
+                                  .replaceAll(widget.user.email, '')
+                                  .replaceAll('@gmail.com', ''),
+                            );
+                          },
                         ),
                       );
                     }

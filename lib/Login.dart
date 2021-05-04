@@ -27,12 +27,12 @@ class _LoginState extends State<Login> {
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children:<Widget>[
+            children: <Widget>[
               Text(
                 'Morse Chat',
                 style: GoogleFonts.orbitron(
-                  textStyle:TextStyle(
-                    color:Colors.orangeAccent,
+                  textStyle: TextStyle(
+                    color: Colors.orangeAccent,
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
                   ),
@@ -56,7 +56,9 @@ class _LoginState extends State<Login> {
               ),
               SignInButton(
                 Buttons.GoogleDark,
-                onPressed: () => signInWithGoogle(context),
+                onPressed: () {
+                  signInWithGoogle(context);
+                },
                 text: 'SignUp With Google',
               ),
             ],
