@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
               return [
                 PopupMenuItem(
                   child: Center(
-                    child: FlatButton(
+                    child: TextButton(
                       onPressed: () async {
                         SharedPreferences prefs =
                             await SharedPreferences.getInstance();
@@ -143,7 +143,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      splashColor: Colors.tealAccent,
+                      style: ButtonStyle(
+                        overlayColor: MaterialStateProperty.all(Colors.tealAccent),
+                      ),
                     ),
                   ),
                 ),
@@ -220,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                               SizedBox(
                                 height: 20,
                               ),
-                              RaisedButton(
+                              ElevatedButton(
                                 child: Text(
                                   'Chat with Others',
                                   style: GoogleFonts.orbitron(
@@ -231,8 +233,10 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 ),
-                                color: Colors.yellowAccent,
-                                splashColor: Colors.tealAccent,
+                                style: ButtonStyle(
+                                  overlayColor: MaterialStateProperty.all(Colors.tealAccent),
+                                  backgroundColor: MaterialStateProperty.all(Colors.yellowAccent),
+                                ),
                                 onPressed: () {
                                   Navigator.push(
                                     context,

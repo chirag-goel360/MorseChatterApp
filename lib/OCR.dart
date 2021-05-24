@@ -74,13 +74,15 @@ class _OCRState extends State<OCR> {
             SizedBox(
               height: 30,
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: _read,
               child: Text(
                 'Start Scanning',
               ),
-              color: Colors.red,
-              splashColor: Colors.orangeAccent,
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.red),
+                overlayColor: MaterialStateProperty.all(Colors.orangeAccent),
+              ),
             ),
             SizedBox(
               height: 10,

@@ -167,7 +167,7 @@ class _LightMorseState extends State<LightMorse> {
               ),
             ),
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: encoder,
             child: Text(
               "Convert To Morse Code",
@@ -183,7 +183,7 @@ class _LightMorseState extends State<LightMorse> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              RaisedButton(
+              ElevatedButton(
                 onPressed: lit,
                 child: Text(
                   "🔦",

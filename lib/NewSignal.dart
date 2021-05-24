@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'Signal.dart';
 
 class NewSignal extends StatefulWidget {
-  FirebaseUser user;
+  final FirebaseUser user;
   NewSignal(
     this.user,
   );
@@ -96,9 +96,11 @@ class _NewSignalState extends State<NewSignal> {
               SizedBox(
                 height: 20,
               ),
-              RaisedButton(
-                color: Colors.orangeAccent,
-                splashColor: Colors.tealAccent,
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.orangeAccent),
+                  overlayColor: MaterialStateProperty.all(Colors.tealAccent),
+                ),
                 onPressed: () async {
                   final z = await Firestore.instance
                       .collection('users')
